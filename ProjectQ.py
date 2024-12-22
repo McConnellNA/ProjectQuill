@@ -148,9 +148,10 @@ def generate_html(name, pdf_files, audio_files, image_files):
     # Add controls for each MP3 file
     for audio in audio_files:
         if os.path.exists(audio):
+            audioName=audio.split('\\')[len(audio.split('\\'))-1].split(".")[0]
             html_content += f"""
             <div class="container" style="left: 0; top: 0;">
-                <p style="padding: 0px; margin: 0px;">{audio}</p>
+                <p style="padding: 0px; margin: 0px;">{audioName}</p>
                 <audio id="{os.path.basename(audio)}" src="{audio}" controls></audio>
             </div>
             """
@@ -183,9 +184,9 @@ def generate_html(name, pdf_files, audio_files, image_files):
 # Example usage
 if __name__ == "__main__":
     name = input("File name?\n")
-    path = input("\nFolder path? (Use '\\\\')\n")
-    pdf_files = [f for f in os.listdir(path) if (isfile(join(path, f)) and f.split('.')[1] == "pdf")]  # Replace with your PDF file paths
-    audio_files = [f for f in os.listdir(path) if (isfile(join(path, f)) and f.split('.')[1] == "mp3")]  # Replace with your MP3 file paths
-    image_files = [f for f in os.listdir(path) if ((isfile(join(path, f)) and f.split('.')[1] == "png") or (isfile(join(path, f)) and f.split('.')[1] == "jpeg") or (isfile(join(path, f)) and f.split('.')[1] == "jpg") or (isfile(join(path, f)) and f.split('.')[1] == "webp"))]  # Replace with your image file paths
+    path = input("\nFolder path? (Use '\\\\' in place of '\\'')\n")
+    pdf_files = [join(path,f) for f in os.listdir(path) if (isfile(join(path, f)) and f.split('.')[1] == "pdf")]  # Replace with your PDF file paths
+    audio_files = [join(path,f) for f in os.listdir(path) if ((isfile(join(path, f)) and f.split('.')[1] == "mp3") or (isfile(join(path, f)) and f.split('.')[1] == "wav"))]  # Replace with your MP3 file paths
+    image_files = [join(path,f) for f in os.listdir(path) if ((isfile(join(path, f)) and f.split('.')[1] == "png") or (isfile(join(path, f)) and f.split('.')[1] == "jpeg") or (isfile(join(path, f)) and f.split('.')[1] == "jpg") or (isfile(join(path, f)) and f.split('.')[1] == "webp"))]  # Replace with your image file paths
 
     generate_html(name,pdf_files, audio_files, image_files)
